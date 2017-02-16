@@ -26,14 +26,18 @@ class GroupList(TransactionalViewMixin,generics.ListCreateAPIView):
         return Group.objects.all()
 
 
-class GroupAddUser(TransactionalViewMixin,generics.CreateAPIView):
+
+
+class GroupUsers(TransactionalViewMixin,generics.CreateAPIView):
     """ add user to permission group. also can remove user to permission group..abs
     if action==1 , add if action ==2 remove user 
     """
 
  
-    serializer_class=GroupAddUserSerializer
-
+    serializer_class=GroupUserSerializer
+    lookup_field=None 
+    
+  
     def perform_create(self,serializer):
         data=serializer.validated_data
        
@@ -48,8 +52,7 @@ class GroupAddUser(TransactionalViewMixin,generics.CreateAPIView):
         else:
             pass
 
-        return data 
-        
+        return data
 
 
 

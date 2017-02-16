@@ -12,8 +12,8 @@ class PermissionsList(TransactionalViewMixin,generics.ListCreateAPIView):
     to filter permissions use:
     group,find where group is the group id to search for permissions and find is the type 
     of permissions to return. This can be  'unselected','selected',
-    where 'unselected' returns permissions not linked to the group 
-    and 'selected' returns permissions that are linke to the group. 
+    where 'unassigned' returns permissions not linked to the group 
+    and 'assigned' returns permissions that are linked to the group. 
     """
 
  
@@ -35,9 +35,9 @@ class PermissionsList(TransactionalViewMixin,generics.ListCreateAPIView):
         elif group and find:
             #get permissions per group and find keys
             group=Group.objects.get(pk=group)
-            if find=='selected':
+            if find=='assigned':
                 return group.permissions.all()
-            elif find=='unselected':
+            elif find=='unassigned':
                 #return Permissions not selected... for the group 
                 return Permission.objects.exclude(id__in=[p.id for p in group.permissions.all()])
 

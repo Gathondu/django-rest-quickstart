@@ -9,7 +9,7 @@ class GroupSerializer(serializers.ModelSerializer):
         model=Group
         fields='__all__'
 
-class GroupAddUserSerializer(serializers.Serializer):
+class GroupUserSerializer(serializers.Serializer):
     group=serializers.IntegerField()
     action=serializers.IntegerField()
     user=serializers.CharField(max_length=300)
