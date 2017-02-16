@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^authenticate/',obtain_expiring_auth_token,name='authenticate'),
     url(r'^users/', include('users.urls',namespace='users')),
     url(r'^groups/', include('groups.urls',namespace='groups')),
+    url(r'^permissions/', include('permissions.urls',namespace='permissions')),
    
     url(r'^docs/$', get_swagger_view(title='REST API Documentation'))
     

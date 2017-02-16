@@ -4,7 +4,6 @@ from users.views import *
 
 urlpatterns=[
             url('^$',UserList.as_view(), name='user_list'),
-            url('^permissions/$',UserPermissionsList.as_view()),
             url('^change-password/$',UserChangePassword.as_view(),
                 name='change_password'),
             url('^reset-password/$',UserResetPassword.as_view(),

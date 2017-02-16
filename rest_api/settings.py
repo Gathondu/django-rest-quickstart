@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'users',
     'authentication',
     'groups',
-    
+    'permissions',
     
     
 ]
