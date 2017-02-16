@@ -14,6 +14,7 @@ from users.models import User
 
 
 class GroupList(TransactionalViewMixin,generics.ListCreateAPIView):
+    """ this lsits and creates permission groups """
    
 
     serializer_class=GroupSerializer
@@ -35,7 +36,7 @@ class GroupAddUser(TransactionalViewMixin,generics.CreateAPIView):
 
     def perform_create(self,serializer):
         data=serializer.validated_data
-        print (data)
+       
         group=Group.objects.get(id=data.get('group'))
         user=User.objects.get(id=data.get('user'))
         if data.get('action')==1:
@@ -53,7 +54,7 @@ class GroupAddUser(TransactionalViewMixin,generics.CreateAPIView):
 
 
 class GroupDetail(TransactionalViewMixin,generics.RetrieveUpdateDestroyAPIView):
-    """
+    """ edit permission groups. 
     """
 
     serializer_class=GroupSerializer
