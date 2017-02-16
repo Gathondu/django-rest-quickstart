@@ -145,10 +145,16 @@ class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
         serializer.save()
 
     def get_queryset(self):
-        if self.request.GET.get('staff_only'):
-            #return oly staff. i.e users who are admin,staff, superuser
-            return User.objects.filter(level__in=[1,2]) #return Admin and staff 
-        return User.objects.filter(is_active=True)
+        user=self.request.user
+        if user and user.is_authenticated():
+            #return as per logged in user
+            if user.is_superuser:
+                return User.get_all()
+            elif user.is_staff:
+                return User.get_staff_and_normal()
+        return User.objects.none()
+        
+
     
 
 

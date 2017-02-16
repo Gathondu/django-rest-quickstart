@@ -46,6 +46,20 @@ class User(AbstractBaseUser,PermissionsMixin):
         #return permsisions in the groups that the user is in 
         return [p.codename for p in Permission.objects.filter(group__user=self)]
     
+    @classmethod
+    def get_staffs(cls):
+        #return all users who are staff
+        return cls.objects.filter(is_staff=True)
+
+    @classmethod
+    def get_all(cls):
+        #return all users who are staff
+        return cls.objects.filter()
+
+    @classmethod
+    def get_staff_and_normal(cls):
+        #return all users who are staff
+        return cls.objects.exclude(is_superuser=True)
 
 class Code(models.Model): #used for verifications
     #code reasons
