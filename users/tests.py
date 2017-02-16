@@ -11,8 +11,7 @@ from .models import User
 
 
 class UserTests(APITestCase):
-
-
+    
     def test_users(self):
 
         """

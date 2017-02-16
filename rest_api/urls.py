@@ -9,7 +9,7 @@ from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^authenticate/',obtain_expiring_auth_token),
+    url(r'^authenticate/',obtain_expiring_auth_token,name='authenticate'),
     url(r'^users/', include('users.urls',namespace='users')),
    
     url(r'^docs/$', get_swagger_view(title='REST API Documentation'))

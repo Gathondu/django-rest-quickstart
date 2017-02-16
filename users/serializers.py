@@ -32,8 +32,7 @@ class UserGroupAddUserSerializer(serializers.Serializer):
     user=serializers.CharField(max_length=300)
 
 class UserSerializer(serializers.ModelSerializer):
-    level_name=serializers.CharField(max_length=50,read_only=True)
-    #created_by=serializers.CharField(max_length=100,required=False)
+  
     permissions=serializers.ListField(read_only=True)
 
 
