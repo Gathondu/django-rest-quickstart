@@ -3,9 +3,9 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.models import Permission
 
 from users.models import User
-
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -15,7 +15,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email','first_name','last_name','phone_number','level','groups',)
+        fields = ('email','first_name','last_name','groups',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -44,7 +44,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model =User
-        fields = ('email', 'password','first_name','last_name','phone_number','level', 'is_active',)
+        fields = ('email', 'password','first_name','last_name', 'is_active',)
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -61,10 +61,10 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email',  'is_active','first_name','phone_number','level','last_name',)
+    list_display = ('email',  'is_active','first_name','last_name',)
     list_filter = ('is_active',)
     fieldsets = (
-        (None, {'fields': ('email', 'password','first_name','last_name','phone_number','level',)}),
+        (None, {'fields': ('email', 'password','first_name','last_name',)}),
         ('Permissions', {'fields': ('is_superuser','is_staff','groups',)}),
         
     )
@@ -73,7 +73,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name','last_name','id_number','phone_number','level',
+            'fields': ('email', 'first_name','last_name',
 
             'password1', 'password2')}
         ),
@@ -86,8 +86,7 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 
-from django.contrib.auth.models import Permission
-from django.contrib import admin
+
 admin.site.register(Permission)
 #admin.site.unregister(Group)
 
