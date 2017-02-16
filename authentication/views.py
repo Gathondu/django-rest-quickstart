@@ -15,7 +15,7 @@ from rest_framework.permissions import  AllowAny
 class ObtainExpiringAuthToken(TransactionalViewMixin,views.ObtainAuthToken):
     
     serializer_class = EmailAuthTokenSerializer
-    renderer_classes = (CustomJSONRenderer, )
+    
     permission_classes = (AllowAny,)
     authentication_classes = ()
   
