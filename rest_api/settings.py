@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'utils',
     'users',
     'authentication',
+    'groups',
+    
     
     
 ]

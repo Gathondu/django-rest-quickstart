@@ -7,12 +7,6 @@ import string
 from django.conf import settings
 
 from django.contrib.auth.models import Permission,Group
-from django.contrib.contenttypes.models import ContentType
-
-class ContentTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=ContentType
-        fields='__all__'
 
 
 class UserPermissionSerializer(serializers.ModelSerializer):
@@ -20,16 +14,6 @@ class UserPermissionSerializer(serializers.ModelSerializer):
         model=Permission
         fields='__all__'
 
-class UserGroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        #depth=1
-        model=Group
-        fields='__all__'
-
-class UserGroupAddUserSerializer(serializers.Serializer):
-    group=serializers.IntegerField()
-    action=serializers.IntegerField()
-    user=serializers.CharField(max_length=300)
 
 class UserSerializer(serializers.ModelSerializer):
   

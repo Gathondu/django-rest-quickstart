@@ -62,59 +62,6 @@ class UserPermissionsList(TransactionalViewMixin,generics.ListCreateAPIView):
 
 
 
-class UserGroupList(TransactionalViewMixin,generics.ListCreateAPIView):
-   
-
-    serializer_class=UserGroupSerializer
-   
-    def perform_create(self,serializer):
-        serializer.save()
-
-    def get_queryset(self):
-        return Group.objects.all()
-
-
-class UserGroupAddUser(TransactionalViewMixin,generics.CreateAPIView):
-    """ add user to permission group. also can remove user to permission group..abs
-    if action==1 , add if action ==2 remove user 
-    """
-
- 
-    serializer_class=UserGroupAddUserSerializer
-
-    def perform_create(self,serializer):
-        data=serializer.validated_data
-        print (data)
-        group=Group.objects.get(id=data.get('group'))
-        user=User.objects.get(id=data.get('user'))
-        if data.get('action')==1:
-            #add 
-            group.user_set.add(user)
-        elif data.get('action')==2:
-            #remove
-            group.user_set.remove(user)
-        else:
-            pass
-
-        return data 
-        
-
-
-
-class UserGroupDetail(TransactionalViewMixin,generics.RetrieveUpdateDestroyAPIView):
-    """
-    """
-
-    serializer_class=UserGroupSerializer
-    queryset=Group.objects.all()
-
-  
-    def perform_destroy(self,model_object):
-        #model_object.is_active=True
-        model_object.delete()
-
-
-
 
 class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
     """ used for user signup and listing users. to return only staff use: staff_only=true or give any variable. """
