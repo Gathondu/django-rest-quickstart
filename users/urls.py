@@ -10,7 +10,7 @@ urlpatterns=[
          
             url('^groups/(?P<pk>[\d+]+)/$',UserGroupDetail.as_view()),
 
-            url('^content-types/$',ContentTypeList.as_view()),
+            
           
             url('^change-password/$',UserChangePassword.as_view(),
                 name='change_password'),

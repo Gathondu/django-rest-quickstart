@@ -2,8 +2,6 @@
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import Permission,Group
-from django.contrib.contenttypes.models import ContentType
-
 
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -116,16 +114,6 @@ class UserGroupDetail(TransactionalViewMixin,generics.RetrieveUpdateDestroyAPIVi
         model_object.delete()
 
 
-class ContentTypeList(TransactionalViewMixin,generics.ListCreateAPIView):
-   
-    
-    serializer_class=ContentTypeSerializer
-  
-    def perform_create(self,serializer):
-        serializer.save()
-
-    def get_queryset(self):
-        return ContentType.objects.all()
 
 
 class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
@@ -153,7 +141,7 @@ class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
             elif user.is_staff:
                 return User.get_staff_and_normal()
         return User.objects.none()
-        
+
 
     
 
