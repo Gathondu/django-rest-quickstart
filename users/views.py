@@ -137,7 +137,10 @@ class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
     filter_fields = ('first_name','last_name','email','groups',)
     
     search_fields=('first_name','last_name','email',)
-    
+
+    #authentication_classes = ()
+    permission_classes = (AllowAny,)
+
     def perform_create(self,serializer):
         serializer.save()
 

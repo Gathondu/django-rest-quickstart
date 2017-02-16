@@ -11,6 +11,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     email=models.EmailField(max_length=200,unique=True)
     password=models.CharField(max_length=300)
     first_name=models.CharField(max_length=100)
+    phone_number=models.CharField(max_length=12,unique=True,help_text='Country Phone Number. E.g +254... ')
     last_name=models.CharField(max_length=100)
     is_superuser=models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now)
@@ -28,7 +29,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     objects=UserManager()
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name','last_name']
+    REQUIRED_FIELDS = ['first_name','last_name','phone_number']
     
     class Meta:
         verbose_name='user'
