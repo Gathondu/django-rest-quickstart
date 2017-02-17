@@ -47,4 +47,7 @@ class UserResetPasswordSerializer(serializers.Serializer):
 
 class UserVerifyEmailSerializer(serializers.Serializer):
     verification_code=serializers.CharField(max_length=50,write_only=True)
-   
+
+class UserVerifyPhoneSerializer(serializers.Serializer):
+    verification_code=serializers.CharField(max_length=50,write_only=True)
+    

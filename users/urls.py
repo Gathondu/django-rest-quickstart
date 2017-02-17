@@ -10,6 +10,9 @@ urlpatterns=[
                 name='reset_password'),
             url('^verify-email/$',UserVerifyEmail.as_view(),
                 name='verify_email'),
+
+             url('^verify-phone/$',UserVerifyPhone.as_view(),
+                name='verify_phone'),
           
             url('^(?P<pk>[\d+]+)/$',UserDetail.as_view(),
                 name='user_detail'),

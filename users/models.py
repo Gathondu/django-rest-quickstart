@@ -27,6 +27,9 @@ class User(AbstractBaseUser,PermissionsMixin):
         help_text='Designates whether this user should be treated as active. '
     )
     created_by=models.CharField(max_length=50,null=True)
+    is_phone_number_verified=models.BooleanField(default=False)
+    is_email_verified=models.BooleanField(default=False)
+    
 
     objects=UserManager()
     

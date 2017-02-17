@@ -227,6 +227,50 @@ class UserVerifyEmail(TransactionalViewMixin,generics.ListCreateAPIView):
                 #remove the Code
                 code.delete()
             else:
+                #incorrect options for verifying
+                raise serializers.ValidationError({'verification_code':"The code is invalid."})
+                self.error_message="Please enter correct code"
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class UserVerifyPhone(TransactionalViewMixin,generics.ListCreateAPIView):
+    """To verify phone . For sending code, use GET for verification of the code received in sms use POST
+    For logged in users. 
+    """
+    
+    serializer_class=UserVerifyPhoneSerializer
+    
+    error_message="All the fields are required"
+    success_message="Succesfully."
+    
+    def get_queryset(self):
+        #send email verification code for looged in use 
+        user=self.request.user
+        code=Code.generate(user=user,reason=Code.PHONE_NUMBER_VERIFICATION)
+        message="Hi %s,Please enter %s to verify your Phone Number."%(user.first_name,code.code)
+
+        self.send_sms(message=message, recipient=user.phone_number)
+        return []
+
+    
+    def post(self, request,format=None):
+        serializer = UserVerifyEmailSerializer(data=request.data)
+        if serializer.is_valid():
+            valid_data=serializer.validated_data
+            #chec if passwords match
+            user=request.user
+
+            verification_code=valid_data.get('verification_code')
+            code=Code.is_valid(user=user,reason=Code.PHONE_NUMBER_VERIFICATION,code=verification_code)
+            if code:
+                #valid 
+                user.is_phone_number_verified=True
+                user.save()
+                self.success_message="Phone number is verified."
+                #remove the Code
+                code.delete()
+            else:
                 #incorrect options for verifiyn
                 raise serializers.ValidationError({'verification_code':"The code is invalid."})
                 self.error_message="Please enter correct code"
