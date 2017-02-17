@@ -184,6 +184,16 @@ STATIC_ROOT= os.path.join(BASE_DIR,'static_files')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media_files")
 
+#email setting for the notifications app 
+#override this in your local settings file 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = 'youremail@gmail.com'
+DEFAULT_FROM_EMAIL=EMAIL_HOST_USER
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 try:
     from .local_settings import *
