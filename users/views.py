@@ -202,6 +202,11 @@ class UserVerifyEmail(TransactionalViewMixin,generics.ListCreateAPIView):
         #send email verification code for looged in use 
         user=self.request.user
         code=Code.generate(user=user,reason=Code.EMAIL_VERIFICATION)
+        message="Hi %s,\
+        We received email verification request. Please enter %s to verify your email. \
+        "%(user.first_name,code.code)
+
+        self.send_email(message=message, recipient=user.email, template_id=None)
         return []
 
     

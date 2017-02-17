@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import Permission,Group
 
+import random
+import string
 from .managers import UserManager
 
 
