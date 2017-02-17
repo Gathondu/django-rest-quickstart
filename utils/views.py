@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 
+from notifications.models import Message
 
 
 class TransactionalViewMixin(object):
@@ -21,7 +22,12 @@ class TransactionalViewMixin(object):
         
         model_object.is_deleted=True
         model_object.save()
-
+    
+    def send_email(self,message,recipient,template_id):
+        return Message.create_email(message=message,recipient_address=recipient,template_id=template_id)
+    
+    def send_sms(self,message,recipient):
+        return Message.create_sms(message=message,recipient_address=recipient)
 
     @method_decorator(transaction.atomic)
     def dispatch(self, *args, **kwargs):

@@ -83,9 +83,7 @@ class UserDetail(TransactionalViewMixin,generics.RetrieveUpdateAPIView):
 
 
 class UserChangePassword(TransactionalViewMixin,generics.CreateAPIView):
-    """To change password, enter the required fields old_password,new_password,new_password_again and user.
-    user will receive an email of the notification on successful reset. Also to verify email or phone number that 
-    password was set to, include the field in your post request. 
+    """To change password, 
     """
     
     serializer_class=UserChangePasswordSerializer
@@ -118,23 +116,13 @@ class UserChangePassword(TransactionalViewMixin,generics.CreateAPIView):
          
             #change password here also verify email if user is same.
             user.set_password(new_password)
-            user.is_password_changed=True
-            #if email is passed, validated email also. since user received password vial email
-            if valid_data.get('email') and valid_data.get('phone_number'):
-                #incorrect options for verifiyn
-                raise serializers.ValidationError({'email':"Enter email or phone_number or None",
-                                                   'phone_number':"Enter email or phone_number or None"})
-
-            if user.email==valid_data.get('email'): #applies if email is unique field
-                user.is_email_verified=True
-            if user.phone_number==valid_data.get('phone_number'): #applies if phone number is unique field
-                user.is_phone_number_verified=True
+          
             user.save()
 
             #send mail
-            message='body:Password Changed Successfully'
-            template_id=settings.EMAIL_TEMPLATES.get('USER_SELF_PASSWORD_CHANGE')
-            self.send_email(message=message,recipient=user.email,template_id=template_id)
+            message='Password Changed Successfully'
+            
+            self.send_email(message=message,recipient=user.email,template_id=None)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

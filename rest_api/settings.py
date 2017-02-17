@@ -47,12 +47,15 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
     #local apps
-
+    
+    'notifications',
     'utils',
     'users',
     'authentication',
     'groups',
     'permissions',
+
+   
     
     
 ]
