@@ -137,13 +137,7 @@ class UserResetPassword(TransactionalViewMixin,generics.CreateAPIView):
     """
     Uses only POST
     email field is required.
-    To reset password after email request you need:
-    reset_code,new_password,email,new_password_again fields. 
-    To request for a reset of password: 
-    you required email field only.
-
-
-    @todo Mosot refine these code later, to suit the password reset process we aggreed
+    
     """
     
     serializer_class=UserResetPasswordSerializer
@@ -169,29 +163,26 @@ class UserResetPassword(TransactionalViewMixin,generics.CreateAPIView):
                 user.is_active = True
                 self.send_default_pass(user,reset_code)
                 user.save()
-                self.success_message = "We send you a temporary passcode./Plese use it as a temporary password"
+                self.success_message = "We sent you a temporary passcode."
                 return Response(serializer.data)
             except:
                 self.error_message="Oops please check that your email is correct."
                 raise serializers.ValidationError({'email':"User with this email Does not exist !"})
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def get_reset_code(self):
         return  ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
 
 
     def send_default_pass(self,user,reset_code):
-        message = 'fname:%s,password:%s' % (user.first_name,reset_code)
-        template_id = settings.EMAIL_TEMPLATES.get('PASSWORD_RESET_SUCCESS')
+        #message = 'fname:%s,password:%s' % (user.first_name,reset_code)
+        message = 'Hi %s, Please use  %s as your temporary password.' % (user.first_name,reset_code)
+        template_id = None #templates are for sendgrid 
         self.send_email(message=message, recipient=user.email, template_id=template_id)
         if user.phone_number:
-            try:
-                self.send_sms(reset_code,user.phone_number)
-            except:
-                # @todo  mosoti how do we handle these exeception
-                return True;
-        else:
-            return True
+            self.send_sms(message,user.phone_number)
+
+        return True
 
 
 
