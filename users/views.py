@@ -122,7 +122,7 @@ class UserChangePassword(TransactionalViewMixin,generics.CreateAPIView):
             #send mail
             message='Password Changed Successfully'
             
-            self.send_email(message=message,recipient=user.email,template_id=None)
+            self.send_email(message=message,recipient=user.email,template_id=None,subject='Password Change')
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -154,20 +154,23 @@ class UserResetPassword(TransactionalViewMixin,generics.CreateAPIView):
         if serializer.is_valid():
             valid_data=serializer.validated_data
             email=valid_data.get('email')
+            
+            
             try:
                 user=User.objects.get(email=email)
                 reset_code  = self.get_reset_code()
                 user.set_password(reset_code)
-                user.is_password_changed = False
-                #send mail /Please intergrate asychronous task for these
-                user.is_active = True
                 self.send_default_pass(user,reset_code)
                 user.save()
                 self.success_message = "We sent you a temporary passcode."
                 return Response(serializer.data)
-            except:
+            except User.DoesNotExist:
                 self.error_message="Oops please check that your email is correct."
                 raise serializers.ValidationError({'email':"User with this email Does not exist !"})
+            except :
+                self.error_message="Erro Occured."
+                raise serializers.ValidationError('Please try again. Error occured.')
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def get_reset_code(self):
@@ -178,7 +181,7 @@ class UserResetPassword(TransactionalViewMixin,generics.CreateAPIView):
         #message = 'fname:%s,password:%s' % (user.first_name,reset_code)
         message = 'Hi %s, Please use  %s as your temporary password.' % (user.first_name,reset_code)
         template_id = None #templates are for sendgrid 
-        self.send_email(message=message, recipient=user.email, template_id=template_id)
+        self.send_email(message=message, recipient=user.email, template_id=template_id,subject='Password Reset')
         if user.phone_number:
             self.send_sms(message,user.phone_number)
 
@@ -206,7 +209,7 @@ class UserVerifyEmail(TransactionalViewMixin,generics.ListCreateAPIView):
         We received email verification request. Please enter %s to verify your email. \
         "%(user.first_name,code.code)
 
-        self.send_email(message=message, recipient=user.email, template_id=None)
+        self.send_email(message=message, recipient=user.email, template_id=None,subject='Verify Email')
         return []
 
     

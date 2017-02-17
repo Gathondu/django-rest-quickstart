@@ -23,8 +23,9 @@ class TransactionalViewMixin(object):
         model_object.is_deleted=True
         model_object.save()
     
-    def send_email(self,message,recipient,template_id):
-        return Message.create_email(message=message,recipient_address=recipient,template_id=template_id)
+    def send_email(self,message,recipient,template_id=None,subject=None):
+        return Message.create_email(message=message,recipient_address=recipient,
+                                    template_id=template_id,subject=subject)
     
     def send_sms(self,message,recipient):
         return Message.create_sms(message=message,recipient_address=recipient)

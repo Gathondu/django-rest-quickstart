@@ -34,6 +34,16 @@ class Message(models.Model):
     def is_sms(self):
         return self.message_type==2
 
+    def done(self):
+        #mark this message as processed and successful 
+        self.message_status=2
+        return self.save()
+
+    def fail(self):
+        #mark this message as processed but failed
+        self.message_status=3
+        return self.save()
+        
     @classmethod
     def create_email(cls,message,recipient_address,template_id=None,subject=None):
 
