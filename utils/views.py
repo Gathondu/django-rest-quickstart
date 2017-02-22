@@ -15,6 +15,8 @@ class TransactionalViewMixin(object):
     transactions and filters
     """
     filter_backends = (DjangoFilterBackend,filters.SearchFilter,)
+    
+
 
     def perform_destroy(self,model_object):
         """ called by generic detail view for flagging is_deleted to True.  

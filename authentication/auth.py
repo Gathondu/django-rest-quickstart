@@ -37,6 +37,8 @@ class CustomBackend(object):
 
 
     def authenticate(self, email=None, password=None, **kwargs):
+        if not email:
+            return None
         phone_number=self.is_phone_number(email) #check if email field is also phone number 
         if phone_number:
             return self.get_by_phone_number(phone_number, password)

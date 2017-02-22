@@ -115,8 +115,12 @@ WSGI_APPLICATION = 'rest_api.wsgi.application'
 
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 200,
+    #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #'PAGE_SIZE': 200,
+
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.CustomPageNumberPagination',
+    'PAGE_SIZE': 2,
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'authentication.models.ExpiringTokenAuthentication',  
     ),
