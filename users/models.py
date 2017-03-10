@@ -8,16 +8,15 @@ import random
 import string
 from .managers import UserManager
 
+from utils.models import UUIDModel
 
-class User(AbstractBaseUser,PermissionsMixin):
+class User(AbstractBaseUser,PermissionsMixin,UUIDModel):
     email=models.EmailField(max_length=200,unique=True)
     password=models.CharField(max_length=300)
     first_name=models.CharField(max_length=100)
     phone_number=models.CharField(max_length=12,unique=True,help_text='Country Phone Number. E.g +254... ')
     last_name=models.CharField(max_length=100)
     is_superuser=models.BooleanField(default=False)
-    date_created = models.DateTimeField(default=timezone.now)
- 
     is_staff = models.BooleanField(
         default=False,
         help_text='Designates whether the user can log into this admin site.'

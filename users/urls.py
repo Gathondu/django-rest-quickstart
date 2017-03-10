@@ -14,6 +14,6 @@ urlpatterns=[
              url('^verify-phone/$',UserVerifyPhone.as_view(),
                 name='verify_phone'),
           
-            url('^(?P<pk>[\d+]+)/$',UserDetail.as_view(),
+            url('^(?P<pk>[a-zA-Z0-9-]+)/$',UserDetail.as_view(),
                 name='user_detail'),
              ]

@@ -1,0 +1,12 @@
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_rest_quickstart',
+        'USER':'root',
+        'PASSWORD':'2016isgood.r',
+
+    }
+}
+
+DEBUG = True
+ALLOWED_HOSTS = ['*',]
