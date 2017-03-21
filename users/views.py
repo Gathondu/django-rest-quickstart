@@ -44,7 +44,7 @@ class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
     
 
 
-class UserDetail(TransactionalViewMixin,generics.RetrieveUpdateAPIView):
+class UserDetail(TransactionalViewMixin,generics.RetrieveUpdateDestroyAPIView):
     """ you can also mmake partial updates using PUT. 
     if password field is provided, the password will change. but no email/ notification will be sent to User
     regarding the changes
@@ -71,7 +71,8 @@ class UserDetail(TransactionalViewMixin,generics.RetrieveUpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def perform_destroy(self,model_object):
-        model_object.is_active=True
+        model_object.is_active=False
+        model_object.is_deleted=True
         model_object.save()
 
 

@@ -53,17 +53,17 @@ class User(AbstractBaseUser,PermissionsMixin,UUIDModel):
     @classmethod
     def get_staffs(cls):
         #return all users who are staff
-        return cls.objects.filter(is_staff=True)
+        return cls.objects.filter(is_staff=True,is_deleted=False)
 
     @classmethod
     def get_all(cls):
         #return all users who are staff
-        return cls.objects.filter()
+        return cls.objects.filter(is_deleted=False)
 
     @classmethod
     def get_staff_and_normal(cls):
         #return all users who are staff
-        return cls.objects.exclude(is_superuser=True)
+        return cls.objects.exclude(is_superuser=True,is_deleted=True)
 
 class Code(models.Model): #used for verifications
     #code reasons
