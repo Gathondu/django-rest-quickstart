@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from users.models import User
+from notifications.models import Message
 
 import random
 import string
@@ -12,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=User
-        exclude=('user_permissions','groups','created_by',)
+        exclude=('user_permissions','groups',)
         extra_kwargs={'password':{'write_only':True}}
         
     def create(self,validated_data): 
@@ -22,12 +23,17 @@ class UserSerializer(serializers.ModelSerializer):
 
         #create user
         password=validated_data.pop('password')
-       
-       
+
+        user=User.objects.create_user(email=email,password=password,**validated_data)
+
         if created_by:
             password=random_password
-
-        return User.objects.create_user(email=email,password=password,**validated_data)
+            #send email here . default gateway is gmail 
+            email_message="Welcome %s . Please use %s as your password. Make sure you change it later. "%(user.first_name,password)
+            Message.create_email(message=email_message,recipient_address=user.email,subject="Registration")
+            user.set_password(password)
+            user.save()
+        return user
 
 
 

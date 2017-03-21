@@ -15,6 +15,9 @@ class Message(models.Model):
     message=models.CharField(max_length=320)
     priority=models.SmallIntegerField(default=3) 
     message_type=models.SmallIntegerField(default=1) 
+    
+    gateway=models.CharField(max_length=100,help_text="Name of SMS /email gateway")
+
     message_status=models.SmallIntegerField(default=0) 
     delivery_response=models.CharField(max_length=100,null=True)
     request_id=models.CharField(max_length=300,null=True)
@@ -45,7 +48,7 @@ class Message(models.Model):
         return self.save()
         
     @classmethod
-    def create_email(cls,message,recipient_address,template_id=None,subject=None):
+    def create_email(cls,message,recipient_address,gateway="gmail",template_id=None,subject=None):
 
         #if template is provided the message is list of susstitiutions in 
         #the format of "last_name:mogaka" or "last_name:mogaka,first_name:name"
@@ -53,11 +56,11 @@ class Message(models.Model):
         return cls.objects.create(message=message,message_type=1,
                                   sender_address=settings.DEFAULT_FROM_EMAIL,
                                   template_id=template_id,
-                                  recipient_address=recipient_address,subject=subject)
+                                  recipient_address=recipient_address,subject=subject,gateway=gateway)
 
     @classmethod
-    def create_sms(cls,message,recipient_address):
-       return  cls.objects.create(message=message,message_type=2,recipient_address=recipient_address)
+    def create_sms(cls,message,recipient_address,gateway='sms'):
+       return  cls.objects.create(message=message,message_type=2,recipient_address=recipient_address,gateway=gateway)
                            
     
    

@@ -120,7 +120,7 @@ REST_FRAMEWORK = {
     #'PAGE_SIZE': 200,
 
     'DEFAULT_PAGINATION_CLASS': 'utils.pagination.CustomPageNumberPagination',
-    'PAGE_SIZE': 2,
+    'PAGE_SIZE': 5,
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'authentication.models.ExpiringTokenAuthentication',  
