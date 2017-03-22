@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^users/', include('users.urls',namespace='users')),
     url(r'^groups/', include('groups.urls',namespace='groups')),
     url(r'^permissions/', include('permissions.urls',namespace='permissions')),
+    url(r'^content-types/', include('content_types.urls',namespace='content_types')),
    
     url(r'^docs/$', get_swagger_view(title='REST API Documentation'))
     
