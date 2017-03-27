@@ -57,3 +57,8 @@ class UserVerifyEmailSerializer(serializers.Serializer):
 class UserVerifyPhoneSerializer(serializers.Serializer):
     verification_code=serializers.CharField(max_length=50,write_only=True)
     
+
+class UserGroupManageUserSerializer(serializers.Serializer):
+    group=serializers.IntegerField()
+    action=serializers.IntegerField()
+    user=serializers.CharField(max_length=300)

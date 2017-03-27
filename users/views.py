@@ -20,7 +20,7 @@ class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
     serializer_class=UserSerializer
   
     
-    filter_fields = ('first_name','last_name','email','groups',)
+    filter_fields = ('first_name','last_name','email','groups','is_staff','is_superuser','groups',)
     
     search_fields=('first_name','last_name','email',)
 

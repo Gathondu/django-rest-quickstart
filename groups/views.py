@@ -69,3 +69,31 @@ class GroupDetail(TransactionalViewMixin,generics.RetrieveUpdateDestroyAPIView):
         model_object.delete()
 
 
+
+
+class GroupManageUser(TransactionalViewMixin,generics.CreateAPIView):
+    """ add user to permission group. also can remove user to permission group..abs
+    if action==1 , add if action ==2 remove user 
+    """
+
+    #permission_classes = (AllowAny,)
+    #authentication_classes = ()
+    
+    serializer_class=GroupUserSerializer
+    #renderer_classes = (CustomJSONRenderer, )
+
+    def perform_create(self,serializer):
+        data=serializer.validated_data
+        print (data)
+        group=Group.objects.get(id=data.get('group'))
+        user=User.objects.get(id=data.get('user'))
+        if data.get('action')==1:
+            #add 
+            group.user_set.add(user)
+        elif data.get('action')==2:
+            #remove
+            group.user_set.remove(user)
+        else:
+            pass
+
+        return data 

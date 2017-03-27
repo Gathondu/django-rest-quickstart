@@ -44,3 +44,16 @@ class PermissionsList(TransactionalViewMixin,generics.ListCreateAPIView):
 
 
 
+
+class PermissionDetail(TransactionalViewMixin,generics.RetrieveUpdateDestroyAPIView):
+    """ edit permissions 
+    """
+
+    serializer_class=PermissionSerializer
+    queryset=Permission.objects.all()
+
+
+    def perform_destroy(self,model_object):
+        #model_object.is_active=True
+        model_object.delete()
+
