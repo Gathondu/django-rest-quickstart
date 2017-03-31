@@ -28,6 +28,7 @@ class User(AbstractBaseUser,PermissionsMixin,UUIDModel):
     created_by=models.CharField(max_length=50,null=True)
     is_phone_number_verified=models.BooleanField(default=False)
     is_email_verified=models.BooleanField(default=False)
+    is_password_changed=models.BooleanField(default=False)
     
 
     objects=UserManager()

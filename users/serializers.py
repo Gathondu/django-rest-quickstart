@@ -32,7 +32,10 @@ class UserSerializer(serializers.ModelSerializer):
             email_message="Welcome %s . Please use %s as your password. Make sure you change it later. "%(user.first_name,password)
             Message.create_email(message=email_message,recipient_address=user.email,subject="Registration")
             user.set_password(password)
-            user.save()
+        else:
+            user.is_password_changed=True #creted by himself. doenot need to change password on login 
+        
+        user.save()
         return user
 
 

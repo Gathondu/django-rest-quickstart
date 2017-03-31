@@ -117,6 +117,7 @@ class UserChangePassword(TransactionalViewMixin,generics.CreateAPIView):
          
             #change password here also verify email if user is same.
             user.set_password(new_password)
+            user.is_password_changed=True
           
             user.save()
 
@@ -162,6 +163,7 @@ class UserResetPassword(TransactionalViewMixin,generics.CreateAPIView):
                 reset_code  = self.get_reset_code()
                 user.set_password(reset_code)
                 self.send_default_pass(user,reset_code)
+                user.is_password_changed=False
                 user.save()
                 self.success_message = "We sent you a temporary passcode."
                 return Response(serializer.data)
