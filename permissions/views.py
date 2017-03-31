@@ -27,17 +27,18 @@ class PermissionsList(TransactionalViewMixin,generics.ListCreateAPIView):
 
     def get_queryset(self):
         group=self.request.GET.get('group')
-        find=self.request.GET.get('find')
+
+        p_type=self.request.GET.get('type') #type of permission can be selected or unSelected for the group
      
-        if not find and not group:
+        if not p_type and not group:
             #return just permissions
             return Permission.objects.all()
-        elif group and find:
+        elif group and p_type:
             #get permissions per group and find keys
             group=Group.objects.get(pk=group)
-            if find=='assigned':
+            if p_type=='assigned':
                 return group.permissions.all()
-            elif find=='unassigned':
+            elif p_type=='unassigned':
                 #return Permissions not selected... for the group 
                 return Permission.objects.exclude(id__in=[p.id for p in group.permissions.all()])
 
