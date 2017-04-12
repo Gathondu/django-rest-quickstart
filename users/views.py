@@ -25,6 +25,9 @@ class UserList(TransactionalViewMixin,generics.ListCreateAPIView):
     search_fields=('first_name','last_name','email',)
 
     #authentication_classes = ()
+    success_message='Successful'
+    error_message="Failed"
+    
     permission_classes = (AllowAny,)
 
     def perform_create(self,serializer):
